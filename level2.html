@@ -9,7 +9,7 @@
     html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
     #panorama { width: 100%; height: 100%; }
 
-    /* Timer – Safely below zoom controls */
+    /* Timer */
     #timer {
       position: fixed; top: 15px; left: 75px; color: #ff00ff; font-size: 1.4em; font-weight: bold;
       background: rgba(0,0,0,0.85); padding: 10px 18px; border-radius: 12px; z-index: 110;
@@ -66,20 +66,15 @@
 <body>
 
   <div id="panorama"></div>
-
-  <!-- Timer (safe position) -->
   <div id="timer">00:00</div>
 
-  <!-- Counter -->
   <div id="counter">
     <img src="https://cdn-icons-png.flaticon.com/32/3566/3566633.png" alt="Found">
     <span id="found">0</span> / <span id="total">8</span>
   </div>
 
-  <!-- Monster Bar (will be filled by JS) -->
   <div id="monster-bar"></div>
 
-  <!-- Win Screen -->
   <div id="win-screen">
     <h1>Level 2 Complete!</h1>
     <p>All monsters banished from the shadows!</p>
@@ -87,7 +82,7 @@
       <source src="congrats.mp4" type="video/mp4">
       <img src="congrats.gif" alt="Victory">
     </video>
-    <button class="menu-btn" onclick="window.location.href='index.html'">Back to Menu</button>
+    <button class="menu-btn" onclick="window.location.href='level3.html'">Next Level →</button>
   </div>
 
   <script>
@@ -119,7 +114,7 @@
 
     function buildMonsterBar() {
       const bar = document.getElementById('monster-bar');
-      bar.innerHTML = ''; // Clear first
+      bar.innerHTML = ''; 
       clues.forEach(clue => {
         const img = document.createElement('img');
         img.src = clue.src;
@@ -167,7 +162,6 @@
       };
     }
 
-    // No hotspot halos
     const style = document.createElement('style');
     style.textContent = `
       .clue-hotspot, .clue-hotspot.hard, .clue-hotspot.expert { width: 60px; height: 60px; }
@@ -177,15 +171,14 @@
     `;
     document.head.appendChild(style);
 
-    // START EVERYTHING AFTER PAGE LOAD
     window.addEventListener('load', () => {
-      buildMonsterBar();        // ← Now guaranteed to work
+      buildMonsterBar();
       startTimer();
       document.getElementById('total').textContent = TOTAL_CLUES;
 
       pannellum.viewer('panorama', {
         type: "equirectangular",
-        panorama: "360img2.jpg",   // ← LEVEL 2 IMAGE
+        panorama: "360img2.jpg",
         autoLoad: true,
         autoRotate: -1.8,
         autoRotateInactivityDelay: 2500,
